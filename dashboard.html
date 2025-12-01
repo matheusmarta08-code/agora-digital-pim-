@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="dashboard-title">Ágora Digital - Dashboard</title>
+    <style>
+        /* ----------------------------------------------------------------
+        * CSS GERAL
+        * ---------------------------------------------------------------- */
+        :root {
+            --primary-color: #004a99; /* Azul UNIP */
+            --secondary-color: #ff9900; /* Laranja de destaque */
+            --text-color: #333;
+            --light-bg: #f4f7f9;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        /* --- Header e Navegação (Comum) --- */
+        .main-header {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-header .system-name {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 0;
+            color: var(--secondary-color); /* Laranja para destaque no fundo Azul */
+            letter-spacing: 1px;
+        }
+
+        .main-header nav {
+            display: flex;
+            align-items: center;
+        }
+        
+        /* ID atualizado para user-display */
+        .user-info {
+            margin-right: 20px;
+            font-weight: bold;
+            color: var(--white);
+        }
+
+        /* --- Botões --- */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            text-align: center; /* Garante que o texto dentro do botão esteja centrado */
+        }
+
+        .btn.primary {
+            background-color: var(--secondary-color);
+            color: var(--white);
+        }
+
+        .btn.primary:hover {
+            background-color: #e68a00;
+            transform: translateY(-1px);
+        }
+        
+        .btn.secondary {
+            background-color: #ccc;
+            color: var(--text-color);
+        }
+
+        /* --- Footer (Comum) --- */
+        footer {
+            text-align: center;
+            padding: 15px 0;
+            background: #333;
+            color: var(--light-bg);
+            margin-top: 20px;
+        }
+        
+        /* ----------------------------------------------------------------
+        * CSS ESPECÍFICO DE DASHBOARD (GRID E CARDS)
+        * ---------------------------------------------------------------- */
+        .dashboard-grid {
+            display: grid;
+            /* Layout responsivo: no mínimo 300px por coluna, ajusta-se automaticamente */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 25px;
+            padding: 30px 0;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 200px; 
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .card p {
+            margin-bottom: 20px;
+            flex-grow: 1; /* Garante que a descrição ocupe o espaço antes do botão */
+        }
+
+        /* Media query para telas muito pequenas */
+        @media (max-width: 600px) {
+            .main-header .container {
+                flex-direction: column;
+            }
+            .main-header nav {
+                margin-top: 10px;
+            }
+            .user-info {
+                margin-right: 10px;
+            }
+        }
+
+        /* --- Chatbot (Mesmo estilo) --- */
+        .chatbot-float-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--secondary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 2em;
+            line-height: 60px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            z-index: 1000;
+            text-decoration: none;
+        }
+
+        .chatbot-float-btn:hover {
+            background-color: #e68a00;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <h1 class="system-name">Ágora Digital</h1> 
+            <nav>
+                <span class="user-info" id="user-display">Bem-vindo(a)!</span>
+                <a href="login.html" class="btn secondary">Sair</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container dashboard-grid">
+        <section class="card module-aulas">
+            <div>
+                <h2>🎓 Aulas e Materiais</h2>
+                <p id="aulas-description">Acesse o repositório de aulas, slides e conteúdos digitais.</p>
+            </div>
+            <a href="#" class="btn primary" id="btn-aulas">Acessar Aulas</a> 
+        </section>
+
+        <section class="card module-atividades">
+            <div>
+                <h2>📝 Atividades e Tarefas</h2>
+                <p id="atividades-description">Veja a lista de tarefas pendentes, prazos de entrega e submeta seus trabalhos.</p>
+            </div>
+            <a href="#" class="btn primary" id="btn-atividades">Ver Atividades</a> 
+        </section>
+
+        <section class="card module-notas">
+            <div>
+                <h2>💯 Notas e Desempenho</h2>
+                <p id="notas-description">Consulte suas notas parciais, médias e o histórico completo.</p>
+            </div>
+            <a href="#" class="btn primary" id="btn-notas">Ver Notas</a> 
+        </section>
+
+        <section class="card module-relatorios">
+            <div>
+                <h2>💡 Relatórios de IA / Sustentabilidade</h2>
+                <p id="relatorios-description">Veja relatórios digitais e métricas de sustentabilidade do sistema.</p>
+            </div>
+            <a href="#" class="btn secondary" id="btn-relatorios">Gerar Relatórios</a> 
+        </section>
+    </div>
+
+    <a href="chatbot.html" class="chatbot-float-btn" id="chatbot-link" title="Fale com o Ágora IA">💬</a>
+
+    <footer>
+        <p>Ágora Digital | Desenvolvimento focado em *Engenharia de Software Ágil* e apoio de *Inteligência Artificial*.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Pega o parâmetro 'perfil' da URL (Ex: ?perfil=aluno)
+            const urlParams = new URLSearchParams(window.location.search);
+            const perfil = urlParams.get('perfil');
+
+            // Elementos de navegação e exibição
+            const titleElement = document.getElementById('dashboard-title');
+            const userElement = document.getElementById('user-display');
+            
+            // Botões e Descrições (IDs padronizados)
+            const btnAulas = document.getElementById('btn-aulas');
+            const aulasDescription = document.getElementById('aulas-description');
+            
+            const btnAtividades = document.getElementById('btn-atividades'); 
+            const atividadesDescription = document.getElementById('atividades-description'); 
+            
+            const btnNotas = document.getElementById('btn-notas'); 
+            const notasDescription = document.getElementById('notas-description'); 
+            
+            const btnRelatorios = document.getElementById('btn-relatorios'); 
+            const relatoriosDescription = document.getElementById('relatorios-description');
+            
+            const chatbotLink = document.getElementById('chatbot-link'); 
+
+            // A. Verificação de Perfil e Redirecionamento de Segurança
+            if (!perfil) {
+                // Redireciona para o login se o perfil não for encontrado na URL
+                window.location.href = 'login.html'; 
+                return; 
+            }
+
+            // B. Configuração dos Links e Textos por Perfil
+            
+            // Define o link do chatbot (Para ambos, Aluno e Professor)
+            chatbotLink.href = `chatbot.html?perfil=${perfil}`;
+            chatbotLink.target = '_blank';
+
+            if (perfil === 'aluno') {
+                // Configuração visual do Aluno
+                titleElement.textContent = 'Ágora Digital - Aluno';
+                userElement.textContent = 'Bem-vindo(a), Aluno PIM!';
+                
+                // Card 1: Aulas
+                aulasDescription.textContent = 'Acesse as aulas e materiais postados pelos seus professores.';
+                btnAulas.textContent = 'Acessar Aulas';
+                btnAulas.href = `aulas-aluno.html?perfil=${perfil}`; // Página de aulas do aluno
+                
+                // Card 2: Atividades
+                atividadesDescription.textContent = 'Veja a lista de tarefas pendentes, prazos de entrega e submeta seus trabalhos.';
+                btnAtividades.textContent = 'Ver Atividades';
+                btnAtividades.href = `atividades.html?perfil=${perfil}`; // Lista de atividades (leitura)
+                
+                // Card 3: Notas
+                notasDescription.textContent = 'Consulte suas notas parciais, médias e o histórico completo.';
+                btnNotas.textContent = 'Ver Notas';
+                btnNotas.href = `notas.html?perfil=${perfil}`; 
+
+                // Card 4: Relatórios
+                relatoriosDescription.textContent = 'Veja relatórios digitais e métricas de sustentabilidade do sistema.';
+                btnRelatorios.href = `relatorios.html?perfil=${perfil}`;
+
+            } else if (perfil === 'professor') {
+                // Configuração visual do Professor
+                titleElement.textContent = 'Ágora Digital - Professor';
+                userElement.textContent = 'Bem-vindo(a), Professor(a)!';
+                
+                // Card 1: Aulas
+                aulasDescription.textContent = 'Faça o upload de novos módulos, slides e crie conteúdos.';
+                btnAulas.textContent = 'Gerenciar Aulas';
+                btnAulas.href = `upload-aulas.html?perfil=${perfil}`; // Página para upload
+                
+                // Card 2: Atividades
+                atividadesDescription.textContent = 'Crie novas tarefas, defina prazos e monitore as submissões dos alunos.';
+                btnAtividades.textContent = 'Criar Atividade'; 
+                btnAtividades.href = `criar-atividade.html?perfil=${perfil}`; // Página para criar atividade
+                
+                // Card 3: Notas
+                notasDescription.textContent = 'Consulte suas notas parciais, médias e o histórico completo.';
+                btnNotas.textContent = 'Lançar Notas';
+                btnNotas.href = `notas.html?perfil=${perfil}`; // Página para lançar notas
+                
+                // Card 4: Relatórios
+                relatoriosDescription.textContent = 'Veja relatórios digitais e métricas de sustentabilidade do sistema.';
+                btnRelatorios.href = `relatorios.html?perfil=${perfil}`;
+            }
+
+        }); // Fim do DOMContentLoaded
+    </script>
+</body>
+</html>

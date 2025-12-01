@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ágora Digital - Criar Atividade</title>
+    <style>
+        /* ----------------------------------------------------------------
+        * CSS GERAL (Baseado nos seus arquivos)
+        * ---------------------------------------------------------------- */
+        :root {
+            --primary-color: #004a99; /* Azul UNIP */
+            --secondary-color: #ff9900; /* Laranja de destaque (Ágora) */
+            --text-color: #333;
+            --light-bg: #f4f7f9;
+            --white: #ffffff;
+            --success-color: #5cb85c;
+            --danger-color: #d9534f;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Arial', sans-serif; line-height: 1.6; background-color: var(--light-bg); color: var(--text-color); }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        /* --- Header --- */
+        .main-header {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-header h1 {
+            font-size: 1.5em;
+            color: var(--secondary-color);
+        }
+
+        /* --- Botões --- */
+        .btn {
+            display: inline-block;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn.secondary {
+            background-color: #ccc;
+            color: var(--text-color);
+        }
+
+        .btn.submit {
+            background-color: var(--success-color);
+            color: var(--white);
+        }
+
+        /* --- Estilos do Formulário --- */
+        .form-section {
+            padding: 30px 0;
+        }
+        
+        .form-card {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-card h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        /* Layout para inputs lado a lado (default para telas grandes) */
+        .input-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .input-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group input[type="date"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+
+        .form-actions {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            text-align: right;
+        }
+
+        /* --- OTIMIZAÇÃO PARA NOTEBOOKS (Media Query) --- */
+        /* Garante empilhamento para telas menores (como a maioria dos notebooks em full screen ou tablets) */
+        @media (max-width: 768px) {
+            .input-row {
+                flex-direction: column; /* Empilha os itens verticalmente */
+                gap: 0; /* Remove o gap horizontal */
+            }
+            .input-row .form-group {
+                margin-bottom: 20px; /* Adiciona margem entre os campos empilhados */
+            }
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 15px 0;
+            background: #333;
+            color: var(--light-bg);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <h1>Criar Nova Atividade 📝</h1>
+            <a href="atividades.html" class="btn secondary" id="btn-back">Voltar à Lista</a> 
+        </div>
+    </header>
+
+    <div class="container form-section">
+        <div class="form-card">
+            <h2>Configuração da Tarefa</h2>
+            <form id="create-activity-form">
+                
+                <div class="form-group">
+                    <label for="titulo">Título da Tarefa:</label>
+                    <input type="text" id="titulo" name="titulo" required placeholder="Ex: Sprint 1: Documentação da Arquitetura (UML)">
+                </div>
+
+                <div class="input-row">
+                    <div class="form-group">
+                        <label for="curso">Curso Alvo:</label>
+                        <select id="curso" name="curso" required>
+                            <option value="" disabled selected>Selecione o Curso</option>
+                            <option value="ADS">Análise e Desenvolvimento de Sistemas (ADS)</option>
+                            <option value="Redes">Redes de Computadores</option>
+                            <option value="SI">Sistemas de Informação</option>
+                            <option value="CC">Ciência da Computação</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="disciplina">Disciplina:</label>
+                        <select id="disciplina" name="disciplina" required disabled>
+                            <option value="" disabled selected>Selecione a Disciplina</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="input-row">
+                    <div class="form-group">
+                        <label for="prazo">Data de Prazo (Fim da Disponibilidade):</label>
+                        <input type="date" id="prazo" name="prazo" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="pontuacao">Pontuação Máxima:</label>
+                        <input type="number" id="pontuacao" name="pontuacao" min="1" max="100" step="0.1" required placeholder="Ex: 10.0">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="descricao">Descrição Completa e Requisitos:</label>
+                    <textarea id="descricao" name="descricao" rows="6" required placeholder="Descreva os objetivos, requisitos, e formato de entrega (PDF, ZIP, etc)."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="turma">Turma/Sala (Opcional - para filtrar alunos):</label>
+                    <input type="text" id="turma" name="turma" placeholder="Ex: 3º Semestre A">
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn submit">Publicar Atividade</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>Ágora Digital | Desenvolvimento focado em *Engenharia de Software Ágil* e apoio de *Inteligência Artificial*.</p>
+    </footer>
+
+    <script>
+        // Objeto que mapeia cursos e suas disciplinas (copiado de atividades.html)
+        const disciplinasPorCurso = {
+            "ADS": ["Programação Orientada a Objetos", "Banco de Dados", "Análise e Projeto de Sistemas", "Metodologia Científica"],
+            "Redes": ["Arquitetura de Redes", "Redes sem Fio", "Segurança de Redes"],
+            "SI": ["Engenharia de Software", "Governança de TI", "Sistemas de Apoio à Decisão"],
+            "CC": ["Cálculo", "Estrutura de Dados Avançada", "Teoria da Computação"]
+        };
+
+        const cursoSelect = document.getElementById('curso');
+        const disciplinaSelect = document.getElementById('disciplina');
+        const btnBack = document.getElementById('btn-back');
+
+        // Função para carregar disciplinas dinamicamente
+        cursoSelect.addEventListener('change', function() {
+            const selectedCurso = cursoSelect.value;
+            disciplinaSelect.innerHTML = '<option value="" disabled selected>Selecione a Disciplina</option>';
+            
+            if (selectedCurso && disciplinasPorCurso[selectedCurso]) {
+                disciplinaSelect.disabled = false;
+                disciplinasPorCurso[selectedCurso].forEach(disciplina => {
+                    const option = document.createElement('option');
+                    option.value = disciplina;
+                    option.textContent = disciplina;
+                    disciplinaSelect.appendChild(option);
+                });
+            } else {
+                disciplinaSelect.disabled = true;
+            }
+        });
+
+        // Configurar o botão Voltar e Submissão
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const perfil = urlParams.get('perfil');
+            
+            // 1. CORREÇÃO: Configura o link de Voltar mantendo o perfil (essencial para o professor)
+            if (perfil) {
+                btnBack.href = `atividades.html?perfil=${perfil}`;
+            } else {
+                // Fallback de segurança para professor
+                btnBack.href = `atividades.html?perfil=professor`;
+            }
+
+            // 2. SIMULAÇÃO DE ENVIO DO FORMULÁRIO
+            document.getElementById('create-activity-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(this);
+                const data = Object.fromEntries(formData.entries());
+
+                console.log("Dados da Atividade a ser publicada:", data);
+
+                alert(`Atividade "${data.titulo}" para ${data.disciplina} publicada com sucesso! Pontuação: ${data.pontuacao}.`);
+                
+                // Redireciona de volta para a lista de atividades do professor
+                window.location.href = `atividades.html?perfil=professor`;
+            });
+        });
+    </script>
+</body>
+</html>

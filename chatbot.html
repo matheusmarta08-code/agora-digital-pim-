@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot: Aluno do Fundão</title>
+    <style>
+        /* ----------------------------------------------------------------
+        * ESTILOS DO CHATBOT
+        * ---------------------------------------------------------------- */
+        :root {
+            --primary-color: #004a99; 
+            --secondary-color: #ff9900; 
+            --light-bg: #f4f7f9;
+            --chat-bg: #e6e6e6; /* Fundo das mensagens do assistente */
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--light-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        #chat-window {
+            width: 100%;
+            max-width: 400px;
+            height: 600px;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #chat-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        #chat-header span {
+            display: block;
+            font-size: 0.8em;
+            font-weight: normal;
+        }
+
+        #chat-messages {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        .bot-message {
+            background-color: var(--chat-bg);
+            align-self: flex-start;
+            border-top-left-radius: 0;
+        }
+
+        .user-message {
+            background-color: var(--secondary-color);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 0;
+        }
+
+        #chat-input-area {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+        }
+
+        #user-input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            margin-right: 10px;
+        }
+
+        #send-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        #send-btn:hover {
+            background-color: #003a77;
+        }
+
+        /* Estilo para sugestões rápidas */
+        .suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        
+        .suggestion-btn {
+            background: #ccc;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s;
+        }
+        
+        .suggestion-btn:hover {
+            background: #b3b3b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-window">
+        <div id="chat-header">
+            Aluno do Fundão 🎒
+            <span id="perfil-display">Carregando Perfil...</span>
+        </div>
+        
+        <div id="chat-messages">
+            </div>
+
+        <div id="chat-input-area">
+            <input type="text" id="user-input" placeholder="Digite sua mensagem...">
+            <button id="send-btn">➤</button>
+        </div>
+    </div>
+
+    <script>
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const perfilDisplay = document.getElementById('perfil-display');
+        let currentPerfil = 'aluno'; // Padrão
+
+        // ----------------------------------------------------------------
+        // 1. DADOS E RESPOSTAS PRÉ-DEFINIDAS
+        // ----------------------------------------------------------------
+
+        const respostasBot = {
+            // --- Respostas Comuns ---
+            "saudacao": "E aí! Sou o Aluno do Fundão. Relaxa, eu te ajudo! Qual o seu perfil? **(1) Aluno** ou **(2) Professor**?",
+            "opcoes_aluno": [
+                { text: "Ver Notas", action: "aluno_notas" },
+                { text: "Próximas Tarefas", action: "aluno_tarefas" },
+                { text: "Horário de Aula", action: "aluno_horario" },
+                { text: "Mudar Perfil", action: "mudar_perfil" }
+            ],
+            "opcoes_professor": [
+                { text: "Lançar Notas", action: "prof_lancar_notas" },
+                { text: "Criar Atividade", action: "prof_criar_atividade" },
+                { text: "Horário de Turmas", action: "prof_horario" },
+                { text: "Mudar Perfil", action: "mudar_perfil" }
+            ],
+            "mudar_perfil": "Beleza. Qual o novo perfil? **(1) Aluno** ou **(2) Professor**?",
+
+            // --- Respostas do Aluno ---
+            "aluno_notas": "Suas notas? Estão lá no painel. Vai em **Notas e Desempenho**. Se a média tá baixa, é culpa da Prova 1! 😉",
+            "aluno_tarefas": "O prazo final é amanhã! Corre lá no card de **Atividades e Tarefas** no Dashboard para ver os detalhes.",
+            "aluno_horario": "Seu horário? O PDF está na área de **Aulas e Materiais**. A aula de POO foi movida pra sala B-302.",
+            
+            // --- Respostas do Professor ---
+            "prof_lancar_notas": "Para lançar notas, clique em **Lançar Notas** no Dashboard. Escolha a turma no topo da página. Não esquece da PIM!",
+            "prof_criar_atividade": "Precisa de uma nova atividade? Usa o botão **Criar Atividade** no Dashboard, define o prazo e pronto.",
+            "prof_horario": "Seu horário de turmas? O sistema está migrando, mas você pode ver a lista completa na aba 'Gerenciar Turmas'.",
+
+            // --- Respostas Padrão ---
+            "padrao": "Ainda não entendi bem. Tenta escolher uma das sugestões abaixo ou me diga se você é **Aluno** ou **Professor**."
+        };
+
+        // ----------------------------------------------------------------
+        // 2. FUNÇÕES DE CHAT
+        // ----------------------------------------------------------------
+
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', sender === 'bot' ? 'bot-message' : 'user-message');
+            messageDiv.innerHTML = text;
+            chatMessages.appendChild(messageDiv);
+            // Rolagem automática para a última mensagem
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function handleSuggestion(action) {
+            if (action === "mudar_perfil") {
+                addMessage("Quero mudar de perfil.", 'user');
+                showBotResponse("mudar_perfil");
+                return;
+            }
+            
+            // Simula o clique do usuário para a ação
+            const actionText = event.target.textContent;
+            addMessage(actionText, 'user');
+            
+            showBotResponse(action);
+        }
+
+        function showBotResponse(key, includeSuggestions = true) {
+            let responseText = respostasBot[key] || respostasBot["padrao"];
+            
+            // Se for uma resposta direta, usa o texto
+            if (typeof responseText === 'string') {
+                 addMessage(responseText, 'bot');
+            }
+            
+            // Adiciona as sugestões
+            if (includeSuggestions) {
+                setTimeout(() => {
+                    const suggestionsDiv = document.createElement('div');
+                    suggestionsDiv.classList.add('suggestions');
+                    
+                    const opcoes = currentPerfil === 'aluno' ? respostasBot.opcoes_aluno : respostasBot.opcoes_professor;
+                    
+                    opcoes.forEach(opcao => {
+                        const btn = document.createElement('button');
+                        btn.classList.add('suggestion-btn');
+                        btn.textContent = opcao.text;
+                        btn.onclick = () => handleSuggestion(opcao.action);
+                        suggestionsDiv.appendChild(btn);
+                    });
+                    
+                    chatMessages.appendChild(suggestionsDiv);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 500); // Pequeno delay para a mensagem do bot aparecer primeiro
+            }
+        }
+        
+        function updatePerfil(newPerfil) {
+            currentPerfil = newPerfil;
+            perfilDisplay.textContent = `Logado como: ${newPerfil.toUpperCase()}`;
+            addMessage(`Beleza! Perfil definido para **${newPerfil.toUpperCase()}**.`, 'bot');
+            
+            // Redireciona para as opções corretas
+            if (newPerfil === 'aluno') {
+                showBotResponse('saudacao', true); // Mostra as sugestões de aluno
+            } else {
+                showBotResponse('saudacao', true); // Mostra as sugestões de professor
+            }
+        }
+
+
+        // ----------------------------------------------------------------
+        // 3. PROCESSAMENTO DA ENTRADA DO USUÁRIO
+        // ----------------------------------------------------------------
+
+        function processUserInput() {
+            const input = userInput.value.trim().toLowerCase();
+            userInput.value = ''; // Limpa o input
+
+            if (!input) return;
+
+            addMessage(input, 'user');
+            
+            // Lógica de mudança de perfil (para entrada manual)
+            if (input.includes('aluno') || input.includes('1')) {
+                 updatePerfil('aluno');
+            } else if (input.includes('professor') || input.includes('2')) {
+                 updatePerfil('professor');
+            } else if (input.includes('notas') || input.includes('nota')) {
+                showBotResponse(currentPerfil === 'aluno' ? 'aluno_notas' : 'prof_lancar_notas');
+            } else if (input.includes('tarefas') || input.includes('atividade') || input.includes('atividades')) {
+                showBotResponse(currentPerfil === 'aluno' ? 'aluno_tarefas' : 'prof_criar_atividade');
+            } else if (input.includes('horario') || input.includes('aulas')) {
+                showBotResponse(currentPerfil === 'aluno' ? 'aluno_horario' : 'prof_horario');
+            } else {
+                 showBotResponse('padrao');
+            }
+        }
+
+        sendBtn.addEventListener('click', processUserInput);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                processUserInput();
+            }
+        });
+
+        // ----------------------------------------------------------------
+        // 4. INICIALIZAÇÃO
+        // ----------------------------------------------------------------
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tenta obter o perfil da URL, se estiver incorporado do Dashboard
+            const urlParams = new URLSearchParams(window.location.search);
+            const perfilFromUrl = urlParams.get('perfil');
+
+            if (perfilFromUrl === 'professor' || perfilFromUrl === 'aluno') {
+                updatePerfil(perfilFromUrl);
+            } else {
+                // Inicia o chat perguntando o perfil e mostrando sugestões
+                addMessage(respostasBot.saudacao, 'bot');
+                perfilDisplay.textContent = 'Perfil não definido';
+                
+                // Opções iniciais para escolher o perfil
+                setTimeout(() => {
+                    const initialSuggestionsDiv = document.createElement('div');
+                    initialSuggestionsDiv.classList.add('suggestions');
+                    
+                    const btnAluno = document.createElement('button');
+                    btnAluno.classList.add('suggestion-btn');
+                    btnAluno.textContent = 'Sou Aluno';
+                    btnAluno.onclick = () => updatePerfil('aluno');
+                    
+                    const btnProf = document.createElement('button');
+                    btnProf.classList.add('suggestion-btn');
+                    btnProf.textContent = 'Sou Professor';
+                    btnProf.onclick = () => updatePerfil('professor');
+                    
+                    initialSuggestionsDiv.appendChild(btnAluno);
+                    initialSuggestionsDiv.appendChild(btnProf);
+                    
+                    chatMessages.appendChild(initialSuggestionsDiv);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 500);
+            }
+        });
+    </script>
+</body>
+</html>

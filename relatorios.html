@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios de IA e Sustentabilidade</title>
+    <style>
+        /* ----------------------------------------------------------------
+        * CSS GERAL (Mantendo o estilo)
+        * ---------------------------------------------------------------- */
+        :root {
+            --primary-color: #004a99; /* Azul UNIP */
+            --secondary-color: #ff9900; /* Laranja de destaque */
+            --text-color: #333;
+            --light-bg: #f4f7f9;
+            --white: #ffffff;
+            --success-color: #28a745;
+            --info-color: #17a2b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        /* --- Header e Navegação --- */
+        .main-header {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-header h1 {
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* --- Botões --- */
+        .btn {
+            display: inline-block;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn.secondary {
+            background-color: #ccc;
+            color: var(--text-color);
+        }
+
+        /* --- Conteúdo Principal --- */
+        .relatorios-content {
+            padding: 30px 0;
+        }
+
+        .relatorios-content h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        .card-relatorio {
+            background: var(--white);
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-relatorio h3 {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 5px;
+        }
+
+        /* --- Grid de Métricas (Professor) --- */
+        .filters { /* Estiliza a div de filtros */
+            padding: 15px;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .filters h3 {
+            color: var(--text-color);
+            margin: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+            flex-basis: 150px; 
+            flex-shrink: 0;
+        }
+
+        .filters select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            flex-grow: 1;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .metric-item {
+            background: var(--light-bg);
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .metric-item .value {
+            font-size: 2em;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .metric-item .label {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        /* --- Progresso da Turma (Professor) --- */
+        .progresso-turma {
+            margin-top: 20px;
+        }
+
+        .progresso-turma li {
+            background-color: #f7f7f7;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progresso-turma strong {
+            color: var(--primary-color);
+        }
+        
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 15px 0;
+            background: #333;
+            color: var(--light-bg);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <h1 id="page-title">Relatórios de IA / Sustentabilidade 💡</h1>
+            <nav>
+                <span class="user-info" id="user-info-text">Relatórios do Sistema</span>
+                <a href="dashboard.html" class="btn secondary" id="btn-voltar">Voltar ao Dashboard</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container relatorios-content">
+        <h2 id="section-title">Análise de Métricas do Sistema</h2>
+        
+        <div id="main-relatorios">
+            <div id="relatorio-professor-view">
+                </div>
+            <hr id="professor-hr" style="display: none; margin: 40px 0;">
+            <div id="relatorio-sustentabilidade">
+                </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>Desenvolvido com foco em Educação Ambiental e Inovação.</p>
+    </footer>
+    
+    <script>
+        // --- Dados Simples ---
+        const disciplinasPorCurso = {
+            "ADS": ["Programação Orientada a Objetos", "Banco de Dados", "Análise e Projeto de Sistemas"],
+            "Redes": ["Arquitetura de Redes", "Segurança de Dados"],
+            "SI": ["Gestão de Projetos", "Governança de TI"],
+        };
+
+        const dadosTurmaSimulados = {
+            "Análise e Projeto de Sistemas": {
+                totalAlunos: 35,
+                mediaNotas: 7.8,
+                atividades: [
+                    { nome: "PIM I - Análise de Requisitos", submetidos: 32, total: 35 },
+                    { nome: "Avaliação Regimental", submetidos: 35, total: 35 },
+                    { nome: "Trabalho Final", submetidos: 15, total: 35 }
+                ]
+            },
+            "Programação Orientada a Objetos": {
+                totalAlunos: 40,
+                mediaNotas: 6.5,
+                atividades: [
+                    { nome: "Sprint 1", submetidos: 30, total: 40 },
+                    { nome: "Sprint 2", submetidos: 25, total: 40 }
+                ]
+            }
+        };
+
+        const relatoriosGerais = {
+            sustentabilidade: {
+                papelEconomizado: "120.000 folhas/semestre (digitalização de materiais)",
+                economiaEnergia: "15% de redução (servidores eficientes)",
+                usoDigital: "98% de uso de materiais e provas digitais",
+            },
+            ia: {
+                suportesAutomaticos: "500 respostas automáticas por dia (assistente IA)",
+                recursosAcessados: "10% dos alunos usaram o recurso de Sugestão de Reforço de IA",
+            }
+        };
+
+        // --- Funções de Ajuda ---
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const paramValue = urlParams.get(name);
+            return paramValue ? paramValue.toLowerCase() : null; 
+        }
+
+        // --- Configuração Comum: Carregar Disciplinas (apenas para professor) ---
+        function carregarDisciplinas(cursoId, disciplinaId) {
+            const cursoSelect = document.getElementById(cursoId);
+            const disciplinaSelect = document.getElementById(disciplinaId);
+            const selectedCurso = cursoSelect.value;
+
+            disciplinaSelect.innerHTML = '<option value="" disabled selected>Selecione a Disciplina</option>';
+
+            if (selectedCurso) {
+                disciplinaSelect.disabled = false;
+                const disciplinas = disciplinasPorCurso[selectedCurso] || [];
+                disciplinas.forEach(disciplina => {
+                    const option = document.createElement('option');
+                    option.value = disciplina;
+                    option.textContent = disciplina;
+                    disciplinaSelect.appendChild(option);
+                });
+            } else {
+                disciplinaSelect.disabled = true;
+            }
+            // Chama o relatório de turma toda vez que a disciplina/curso muda
+            exibirRelatorioTurma(); 
+        }
+
+        // --- Modo PROFESSOR: Relatório de Turma ---
+        function renderProfessorView() {
+            document.getElementById('user-info-text').textContent = 'Professor(a) - Relatórios';
+            document.getElementById('section-title').textContent = 'Relatórios de Desempenho da Turma e Métricas de Sustentabilidade';
+            
+            // 1. Torna a divisória visível
+            document.getElementById('professor-hr').style.display = 'block';
+
+            // 2. Injeta os filtros e o container do relatório de turma
+            document.getElementById('relatorio-professor-view').innerHTML = `
+                <div class="filters">
+                    <h3>Filtrar Turma:</h3>
+                    <select id="select-curso-prof">
+                        <option value="" disabled selected>Selecione o Curso Superior</option>
+                        <option value="ADS">Análise e Desenvolvimento de Sistemas (ADS)</option>
+                        <option value="Redes">Redes de Computadores</option>
+                        <option value="SI">Sistemas de Informação</option>
+                    </select>
+                    
+                    <select id="select-disciplina-prof" disabled>
+                        <option value="" disabled selected>Selecione a Disciplina</option>
+                    </select>
+                </div>
+                
+                <div id="relatorio-turma">
+                    <p class="no-data" style="padding: 20px; text-align: center; background-color: #fff; border-radius: 8px;">Selecione um curso e disciplina para ver o relatório da turma.</p>
+                </div>
+            `;
+            
+            // 3. Adicionar Listeners do Professor
+            document.getElementById('select-curso-prof').addEventListener('change', () => carregarDisciplinas('select-curso-prof', 'select-disciplina-prof'));
+            document.getElementById('select-disciplina-prof').addEventListener('change', exibirRelatorioTurma);
+            
+            // 4. Inicia o relatório de sustentabilidade (comum) na div inferior
+            exibirRelatorioSustentabilidade();
+        }
+        
+        function exibirRelatorioTurma() {
+            const disciplinaSelect = document.getElementById('select-disciplina-prof');
+            const relatorioDiv = document.getElementById('relatorio-turma');
+            const selectedDisciplina = disciplinaSelect.value;
+            
+            relatorioDiv.innerHTML = ''; 
+
+            if (!selectedDisciplina) {
+                relatorioDiv.innerHTML = `<p class="no-data" style="padding: 20px; text-align: center; background-color: #fff; border-radius: 8px;">Selecione uma **Disciplina** para visualizar o relatório da turma.</p>`;
+                return;
+            }
+
+            const dados = dadosTurmaSimulados[selectedDisciplina];
+            
+            if (!dados) {
+                 relatorioDiv.innerHTML = `<div class="card-relatorio"><h3>Relatório da Turma: ${selectedDisciplina}</h3><p>Dados de turma não encontrados.</p></div>`;
+                return;
+            }
+
+            let htmlAtividades = '';
+            dados.atividades.forEach(ativ => {
+                const percentual = ((ativ.submetidos / ativ.total) * 100).toFixed(0);
+                htmlAtividades += `
+                    <li>
+                        <span>${ativ.nome}: <strong>${ativ.submetidos} de ${ativ.total} alunos</strong></span>
+                        <span style="color: ${percentual < 80 ? 'var(--secondary-color)' : 'var(--success-color)'}">${percentual}% Submetido</span>
+                    </li>
+                `;
+            });
+
+
+            relatorioDiv.innerHTML = `
+                <div class="card-relatorio">
+                    <h3>Relatório de Progresso da Turma: ${selectedDisciplina}</h3>
+                    
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <div class="value">${dados.totalAlunos}</div>
+                            <div class="label">Total de Alunos</div>
+                        </div>
+                        <div class="metric-item" style="border-left-color: var(--success-color);">
+                            <div class="value">${dados.mediaNotas.toFixed(1)}</div>
+                            <div class="label">Média de Notas da Turma</div>
+                        </div>
+                        <div class="metric-item" style="border-left-color: var(--info-color);">
+                            <div class="value">${dados.atividades.length}</div>
+                            <div class="label">Total de Atividades Lançadas</div>
+                        </div>
+                    </div>
+                    
+                    <div class="progresso-turma">
+                        <h4>Taxa de Submissão de Atividades:</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            ${htmlAtividades}
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+
+        // --- Modo ALUNO e Comum (Sustentabilidade/IA) ---
+        function renderAlunoView() {
+            document.getElementById('user-info-text').textContent = 'Aluno PIM - Relatórios';
+            document.getElementById('section-title').textContent = 'Métricas de Sustentabilidade e Uso de IA';
+            
+            // Oculta a área do professor e a divisória
+            document.getElementById('relatorio-professor-view').innerHTML = '';
+            document.getElementById('professor-hr').style.display = 'none';
+
+            // Inicia o relatório de sustentabilidade (comum) na div inferior
+            exibirRelatorioSustentabilidade();
+        }
+        
+        function exibirRelatorioSustentabilidade() {
+            const relatorioDiv = document.getElementById('relatorio-sustentabilidade');
+            
+            relatorioDiv.innerHTML = `
+                <div class="card-relatorio">
+                    <h3>🌱 Sustentabilidade (Educação Ambiental)</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li>✅ Papel Economizado (Digitalização de materiais): <strong>${relatoriosGerais.sustentabilidade.papelEconomizado}</strong></li>
+                        <li>✅ Economia de Energia (Servidores): <strong>${relatoriosGerais.sustentabilidade.economiaEnergia}</strong></li>
+                        <li>✅ Uso de Recursos Digitais (Provas/Materiais): <strong>${relatoriosGerais.sustentabilidade.usoDigital}</strong></li>
+                    </ul>
+                    <p style="margin-top: 15px; font-size: 0.9em; color: #666;">
+                        *Os relatórios digitais reduzem o consumo de recursos naturais e promovem a educação ambiental.
+                    </p>
+                </div>
+                
+                <div class="card-relatorio">
+                    <h3>🧠 Inteligência Artificial (IA) no Sistema</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li>🤖 Suporte ao Usuário: <strong>${relatoriosGerais.ia.suportesAutomaticos}</strong> (Maior agilidade no atendimento)</li>
+                        <li>🤖 Reforço Acadêmico: <strong>${relatoriosGerais.ia.recursosAcessados}</strong> (IA sugere material de apoio)</li>
+                    </ul>
+                    <p style="margin-top: 15px; font-size: 0.9em; color: #666;">
+                        *Algoritmos de IA apoiam a gestão acadêmica e a busca inteligente de recursos.
+                    </p>
+                </div>
+            `;
+        }
+
+
+        // --- Inicialização Principal (MAIS FORTE) ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const perfil = getUrlParameter('perfil');
+            const btnVoltar = document.getElementById('btn-voltar');
+            
+            if (perfil === 'professor') {
+                btnVoltar.href = 'dashboard.html?perfil=professor';
+                renderProfessorView();
+            } else {
+                // Trata como Aluno se o perfil for 'aluno', nulo ou qualquer outra coisa
+                btnVoltar.href = 'dashboard.html?perfil=aluno';
+                renderAlunoView();
+            }
+        });
+    </script>
+</body>
+</html>

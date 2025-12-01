@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Início - PIM Sistema Acadêmico</title>
+    <style>
+        /* ----------------------------------------------------------------
+        * CSS GERAL (APLICÁVEL À PÁGINA INICIAL)
+        * ---------------------------------------------------------------- */
+        :root {
+            --primary-color: #004a99; /* Azul UNIP */
+            --secondary-color: #ff9900; /* Laranja de destaque */
+            --text-color: #333;
+            --light-bg: #f4f7f9;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        /* --- Header e Navegação (Comum) --- */
+        .main-header {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-header h1 {
+            font-size: 1.5em;
+            margin: 0;
+        }
+
+        .main-header nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .main-header nav a {
+            color: var(--white);
+            text-decoration: none;
+            padding: 8px 15px;
+            margin-left: 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .main-header nav a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* --- Botões --- */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .btn.primary {
+            background-color: var(--secondary-color);
+            color: var(--white);
+        }
+
+        .btn.primary:hover {
+            background-color: #e68a00;
+            transform: translateY(-1px);
+        }
+
+        .btn.large {
+            font-size: 1.1em;
+            padding: 12px 25px;
+        }
+
+        /* --- Estilos Específicos para o Index --- */
+        .hero {
+            text-align: center;
+            padding: 50px 0;
+            background: var(--white);
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-area section {
+            background: var(--white);
+            padding: 25px;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-area h3 {
+            color: var(--primary-color);
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        /* --- Footer (Comum) --- */
+        footer {
+            text-align: center;
+            padding: 15px 0;
+            background: #333;
+            color: var(--light-bg);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <h1>Sistema Acadêmico Colaborativo 📚</h1>
+            <nav>
+                <a href="index.html">Início</a>
+                <a href="#objetivos">Sobre o Projeto</a>
+                <a href="login.html" class="btn primary">Login</a> 
+            </nav>
+        </div>
+    </header>
+
+    <div class="container content-area">
+        <section class="hero">
+            <h2>Bem-vindo ao Ambiente Virtual de Aprendizagem (AVA)</h2>
+            <p>Esta plataforma é resultado do Projeto Integrado Multidisciplinar (PIM), focada em **gestão acadêmica ágil** e apoio de **Inteligência Artificial**.</p>
+            <a href="login.html" class="btn primary large">ACESSAR O SISTEMA</a>
+        </section>
+
+        <section id="objetivos">
+            <h3>🎯 Objetivo Geral do Projeto</h3>
+            <p>Projetar e implementar um sistema acadêmico integrado que permita gerenciar turmas, alunos, aulas e atividades, com funcionalidades de colaboração, explorando práticas de engenharia de software ágil e uso de recursos de Inteligência Artificial.</p>
+        </section>
+        
+        <section id="objetivos-especificos">
+            <h3>📝 Objetivos Específicos</h3>
+            <ul>
+                <li>Aplicar **engenharia de software ágil** para organizar sprints, backlog e acompanhamento do projeto.</li>
+                <li>Implementar **algoritmos e estruturas de dados em Python** aplicados a funcionalidades de busca, ordenação e relatórios.</li>
+                <li>Desenvolver módulos críticos em **C estruturado**.</li>
+                <li>Criar modelos de análise e projeto de sistemas, incluindo **diagramas UML**.</li>
+                <li>Aplicar conceitos de **redes de computadores e sistemas distribuídos**.</li>
+                <li>Usar a **Inteligência Artificial** no desenvolvimento.</li>
+                <li>Incluir recomendações de **educação ambiental**.</li>
+            </ul>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Grupo PIM II - UNIP. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

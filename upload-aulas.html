@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Aulas - Professor</title>
+    <style>
+        /* ----------------------------------------------------------------
+        * CSS GERAL (Mantendo o estilo do dashboard)
+        * ---------------------------------------------------------------- */
+        :root {
+            --primary-color: #004a99; /* Azul UNIP */
+            --secondary-color: #ff9900; /* Laranja de destaque */
+            --text-color: #333;
+            --light-bg: #f4f7f9;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        /* --- Header e Navegação --- */
+        .main-header {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-header h1 {
+            font-size: 1.5em;
+            margin: 0;
+        }
+
+        .user-info {
+            margin-right: 20px;
+            font-weight: bold;
+            color: var(--white);
+        }
+        
+        /* --- Botões --- */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .btn.primary {
+            background-color: var(--secondary-color);
+            color: var(--white);
+        }
+
+        .btn.primary:hover {
+            background-color: #e68a00;
+            transform: translateY(-1px);
+        }
+        
+        .btn.secondary {
+            background-color: #ccc;
+            color: var(--text-color);
+        }
+
+        /* --- Estilos da Área de Formulário --- */
+        .upload-content {
+            background: var(--white);
+            padding: 30px;
+            margin: 30px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+        }
+
+        .upload-content h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .input-group input[type="text"],
+        .input-group select,
+        .input-group textarea,
+        .input-group input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+        
+        .input-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Estilo para alinhar os selects */
+        .select-row {
+            display: flex;
+            gap: 20px;
+        }
+        .select-row .input-group {
+            flex-basis: 50%;
+        }
+
+        /* Botão Enviar no fim do formulário */
+        .btn-submit {
+            margin-top: 20px;
+            width: auto;
+            min-width: 150px;
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 15px 0;
+            background: #333;
+            color: var(--light-bg);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <h1>Gerenciamento de Aulas 🧑‍🏫</h1>
+            <nav>
+                <span class="user-info">Bem-vindo(a), Professor(a)!</span>
+                <a href="dashboard.html?perfil=professor" class="btn secondary">Voltar ao Dashboard</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container upload-content">
+        <h2>Upload de Novo Material</h2>
+        <form id="upload-form"> 
+            
+            <div class="select-row">
+                <div class="input-group">
+                    <label for="select-curso">Curso Superior:</label>
+                    <select id="select-curso" required>
+                        <option value="" disabled selected>Selecione o Curso Superior</option>
+                        <option value="ADS">Análise e Desenvolvimento de Sistemas (ADS)</option>
+                        <option value="Redes">Redes de Computadores</option>
+                        <option value="SI">Sistemas de Informação</option>
+                        <option value="CC">Ciência da Computação</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="select-disciplina">Disciplina:</label>
+                    <select id="select-disciplina" name="disciplina" disabled required>
+                        <option value="" disabled selected>Selecione a Disciplina</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="titulo">Título da Aula/Módulo:</label>
+                <input type="text" id="titulo" name="titulo" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="arquivo">Selecione o Arquivo (PDF, PPTX, ZIP):</label>
+                <input type="file" id="arquivo" name="arquivo" required accept=".pdf,.pptx,.zip">
+            </div>
+
+            <div class="input-group">
+                <label for="sustentabilidade">Recomendação de Educação Ambiental / Dica de IA: 🌱</label>
+                <textarea id="sustentabilidade" name="sustentabilidade" placeholder="Ex: Sugira aos alunos que revisem o material digitalmente para evitar o uso de papel. (Requisito de Sustentabilidade)"></textarea>
+            </div>
+
+            <button type="submit" class="btn primary btn-submit">Publicar Aula</button>
+        </form>
+    </div>
+
+    <footer>
+        <p>Sistema desenvolvido com metodologia Ágil.</p>
+    </footer>
+
+    <script>
+        // Objeto que mapeia cursos e suas disciplinas
+        const disciplinasPorCurso = {
+            "ADS": [
+                "Programação Orientada a Objetos",
+                "Banco de Dados",
+                "Análise e Projeto de Sistemas",
+                "Metodologia Científica"
+            ],
+            "Redes": [
+                "Arquitetura de Redes",
+                "Redes sem Fio",
+                "Segurança de Redes"
+            ],
+            "SI": [
+                "Engenharia de Software",
+                "Governança de TI",
+                "Sistemas de Apoio à Decisão"
+            ],
+            "CC": [
+                "Cálculo",
+                "Estrutura de Dados Avançada",
+                "Teoria da Computação"
+            ]
+        };
+
+        // Função para carregar as disciplinas no segundo dropdown
+        function carregarDisciplinas() {
+            const cursoSelect = document.getElementById('select-curso');
+            const disciplinaSelect = document.getElementById('select-disciplina');
+            const selectedCurso = cursoSelect.value;
+
+            // Limpa o segundo dropdown
+            disciplinaSelect.innerHTML = '<option value="" disabled selected>Selecione a Disciplina</option>';
+
+            if (selectedCurso) {
+                // Habilita e carrega as disciplinas
+                disciplinaSelect.disabled = false;
+                const disciplinas = disciplinasPorCurso[selectedCurso];
+                disciplinas.forEach(disciplina => {
+                    const option = document.createElement('option');
+                    option.value = disciplina;
+                    option.textContent = disciplina;
+                    disciplinaSelect.appendChild(option);
+                });
+            } else {
+                disciplinaSelect.disabled = true;
+            }
+        }
+
+        // Simulação de envio
+        document.getElementById('upload-form').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            const titulo = document.getElementById('titulo').value;
+            const curso = document.getElementById('select-curso').value;
+            const disciplina = document.getElementById('select-disciplina').value;
+            const sustentabilidade = document.getElementById('sustentabilidade').value;
+
+            // Simulação de processamento e upload 
+            alert(`Aula Publicada com Sucesso!
+            Curso: ${curso}
+            Disciplina: ${disciplina}
+            Título: ${titulo}
+            Recomendação (Sustentabilidade/IA): ${sustentabilidade || 'Nenhuma'}
+            
+            Próxima tarefa: Indexar o material com IA.`);
+
+            // Redireciona para o dashboard após o envio
+            window.location.href = 'dashboard.html?perfil=professor'; 
+        });
+
+        // Adiciona os event listeners
+        document.getElementById('select-curso').addEventListener('change', carregarDisciplinas);
+    </script>
+</body>
+</html>

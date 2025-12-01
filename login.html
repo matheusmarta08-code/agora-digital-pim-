@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Ágora Digital</title>
+    <style>
+        /* ----------------------------------------------------------------
+        * CORES
+        * ---------------------------------------------------------------- */
+        :root {
+            --primary-color: #004a99; /* Azul UNIP */
+            --secondary-color: #ff9900; /* Laranja de destaque */
+            --text-color: #333;
+            --light-bg: #f4f7f9;
+            --white: #ffffff;
+            --input-border: #ccc;
+        }
+
+        /* ----------------------------------------------------------------
+        * CSS GERAL
+        * ---------------------------------------------------------------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* --- Botões (Ajustado para 100% de largura) --- */
+        .btn {
+            display: inline-block;
+            padding: 12px 20px; /* Aumentei o padding */
+            text-decoration: none;
+            border-radius: 6px; /* Ajustei o raio */
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            width: 100%; /* Botão full width */
+            margin-top: 20px; /* Aumentei o espaço acima */
+        }
+
+        .btn.primary {
+            background-color: var(--secondary-color);
+            color: var(--white);
+            font-size: 1.1em;
+        }
+
+        .btn.primary:hover {
+            background-color: #e68a00;
+            transform: translateY(-1px);
+        }
+        
+        /* ----------------------------------------------------------------
+        * CSS ESPECÍFICO DE LOGIN (ALINHAMENTO CENTRAL)
+        * ---------------------------------------------------------------- */
+        .login-body {
+            /* Fundo com gradiente suave para dar mais vida e cor */
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--light-bg) 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            color: var(--text-color);
+        }
+
+        .login-container {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 12px; /* Mais arredondado */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        /* --- NOVO ESTILO: Título Ágora Digital --- */
+        .system-title {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .system-subtitle {
+            font-size: 1em;
+            color: var(--secondary-color);
+            margin-bottom: 30px;
+            font-weight: normal;
+        }
+
+        /* --- Fim do NOVO ESTILO --- */
+
+        .login-container header {
+            padding: 0 0 10px 0;
+            color: var(--primary-color);
+        }
+
+        .login-container h2 {
+            color: var(--text-color);
+            margin-bottom: 25px;
+            /* Removido o border-bottom do H2 para deixar o layout mais limpo */
+            padding-bottom: 0;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .input-group input[type="text"],
+        .input-group input[type="password"],
+        .input-group select {
+            width: 100%;
+            padding: 12px; /* Aumentei o padding do input/select */
+            border: 1px solid var(--input-border);
+            border-radius: 6px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 5px rgba(255, 153, 0, 0.5);
+        }
+
+        .register-link {
+            margin-top: 25px;
+            font-size: 0.9em;
+        }
+
+        .register-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="login-body">
+    <div class="login-container">
+        
+        <h1 class="system-title">Ágora Digital</h1>
+        <p class="system-subtitle">Seu Portal Acadêmico Inteligente</p>
+
+        <form id="login-form"> 
+            <h2>Fazer Login</h2>
+            
+            <div class="input-group">
+                <label for="perfil">Você é:</label>
+                <select id="perfil" name="perfil" required>
+                    <option value="" disabled selected>Escolha seu perfil</option>
+                    <option value="aluno">Aluno</option>
+                    <option value="professor">Professor</option>
+                </select>
+            </div>
+            
+            <div class="input-group">
+                <label for="username">Usuário (RA/Matrícula)</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Senha</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn primary">Entrar no Sistema</button>
+        </form>
+
+        <p class="register-link">Esqueceu sua senha? | <a href="index.html">Voltar ao Início</a></p>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            const perfil = document.getElementById('perfil').value;
+            
+            // Lógica de Autenticação Simples (RA/Matrícula e Senha são ignorados, só o perfil é usado para o redirecionamento)
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            if (perfil === 'aluno' || perfil === 'professor') {
+                // Simulação: Se o perfil for selecionado, assume-se sucesso
+                window.location.href = `dashboard.html?perfil=${perfil}`;
+            } else {
+                alert('Por favor, selecione seu perfil.');
+            }
+        });
+    </script>
+</body>
+</html>
